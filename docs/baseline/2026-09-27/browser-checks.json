@@ -1,0 +1,531 @@
+{
+  "viewport": "1440x900",
+  "health": {
+    "status": 200,
+    "body": {
+      "status": "ok",
+      "database": "connected",
+      "project": "mini-agent"
+    }
+  },
+  "pages": [
+    {
+      "route": "/chat",
+      "screenshot": "screenshots/01-chat.png",
+      "title": "聊天 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "聊天",
+        "当前 Agent 的能力",
+        "对话工作目录"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/chat/agents",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/agents",
+      "screenshot": "screenshots/02-agents.png",
+      "title": "Agent 管理 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "Agent 管理"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/agents",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/models",
+      "screenshot": "screenshots/03-models.png",
+      "title": "模型连接 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "模型连接"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/models",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/models/new",
+      "screenshot": "screenshots/04-model-new.png",
+      "title": "添加模型 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "添加模型",
+        "连接配置",
+        "高级设置",
+        "价格记录"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/agents/new",
+      "screenshot": "screenshots/05-agent-new.png",
+      "title": "新建 Agent · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "新建 Agent",
+        "任务与模型",
+        "任务要求",
+        "可用能力",
+        "运行与上下文容量",
+        "删除这条跨会话记忆？"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        },
+        {
+          "path": "/api/agents/options",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/tools",
+      "screenshot": "screenshots/06-tools.png",
+      "title": "本地工具 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "本地工具",
+        "内置工具 3"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        },
+        {
+          "path": "/api/tools",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/skills",
+      "screenshot": "screenshots/07-skills.png",
+      "title": "任务技能 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "任务技能"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        },
+        {
+          "path": "/api/skills",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/mcp",
+      "screenshot": "screenshots/08-mcp.png",
+      "title": "外部工具 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "外部工具"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        },
+        {
+          "path": "/api/mcp",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/mcp/new",
+      "screenshot": "screenshots/09-mcp-new.png",
+      "title": "新增 MCP Server · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "连接外部工具"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/runs",
+      "screenshot": "screenshots/10-runs.png",
+      "title": "运行记录 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "运行记录",
+        "暂无匹配记录"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/runs",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/evaluations",
+      "screenshot": "screenshots/11-evaluations.png",
+      "title": "Agent 评测 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "Agent 评测",
+        "先选一组测试问题",
+        "驳回问题"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/evaluations/tasks",
+          "status": 200
+        },
+        {
+          "path": "/api/evaluations/datasets",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        },
+        {
+          "path": "/api/evaluations/options",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/automations",
+      "screenshot": "screenshots/12-automations.png",
+      "title": "定时任务 · Mini-Agent",
+      "headings": [
+        "你的工作空间",
+        "定时任务",
+        "新建任务",
+        "删除「」？"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/automations",
+          "status": 200
+        },
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/chat/agents",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/tools/current_time",
+      "screenshot": "screenshots/13-tool-detail.png",
+      "title": "工具详情 · Mini-Agent",
+      "headings": [
+        "当前时间",
+        "输入参数",
+        "使用限制",
+        "调用示例"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        },
+        {
+          "path": "/api/tools",
+          "status": 200
+        },
+        {
+          "path": "/api/tools/current_time",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "route": "/evaluations",
+      "screenshot": "screenshots/14-evaluation-dataset.png",
+      "title": "Agent 评测 · Mini-Agent",
+      "headings": [
+        "Agent 评测",
+        "基础能力示例"
+      ],
+      "alerts": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "apiResponses": [
+        {
+          "path": "/api/chat/conversations",
+          "status": 200
+        },
+        {
+          "path": "/api/evaluations/tasks",
+          "status": 200
+        },
+        {
+          "path": "/api/workspace/projects",
+          "status": 200
+        },
+        {
+          "path": "/api/evaluations/datasets",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "status": 200
+        },
+        {
+          "path": "/api/evaluations/options",
+          "status": 200
+        },
+        {
+          "path": "/api/evaluations/datasets/c01dc9c3-28c9-46b4-af49-e3d0efdab884",
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "rootRedirect": {
+    "expected": "/chat",
+    "actual": "/chat"
+  }
+}

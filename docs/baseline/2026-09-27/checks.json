@@ -1,0 +1,64 @@
+{
+  "date": "2026-09-27",
+  "checks": [
+    {
+      "directory": "backend",
+      "command": "uv run ruff check .",
+      "exit_code": 0
+    },
+    {
+      "directory": "backend",
+      "command": "uv run ruff format --check .",
+      "exit_code": 0
+    },
+    {
+      "directory": "backend",
+      "command": "uv run pytest tests/test_health.py tests/test_database.py -q",
+      "exit_code": 0
+    },
+    {
+      "directory": "backend",
+      "command": "uv run alembic upgrade head",
+      "exit_code": 0
+    },
+    {
+      "directory": "backend",
+      "command": "uv run alembic check",
+      "exit_code": 0
+    },
+    {
+      "directory": "frontend",
+      "command": "npm run test",
+      "exit_code": 0
+    },
+    {
+      "directory": "frontend",
+      "command": "npm run build",
+      "exit_code": 0
+    },
+    {
+      "directory": "backend",
+      "command": "uv sync --locked",
+      "exit_code": 0
+    },
+    {
+      "directory": "frontend",
+      "command": "npm ci",
+      "exit_code": 0
+    }
+  ],
+  "frontend_tests": {
+    "files": 18,
+    "passed": 140
+  },
+  "backend_tests": {
+    "passed": 7,
+    "scope": [
+      "tests/test_health.py",
+      "tests/test_database.py"
+    ]
+  },
+  "isolated_database": true,
+  "business_code_changed": false,
+  "database_changed": false
+}

@@ -1,0 +1,146 @@
+/* 产品共享 token：基于用户提供的 Apple 规范，操作色统一为 Ink。 */
+:root {
+  --color-gallery-white: #ffffff;
+  --color-studio-mist: #f5f5f7;
+  --color-paper-frost: #fafafc;
+  --color-hairline-silver: #d6d6d6;
+  --color-control-gray: #e6e6e8;
+  --color-ink: #1d1d1f;
+  --color-slate: #707070;
+  --color-steel: #86868b;
+  --color-launch-orange: #b64400;
+  --color-error: #a32d28;
+  --color-action: var(--color-ink);
+  --color-action-hover: color-mix(in srgb, var(--color-action) 85%, var(--color-gallery-white));
+  --color-outline: var(--color-hairline-silver);
+  --color-ink-black: var(--color-ink);
+  --color-paper-white: var(--color-gallery-white);
+  --color-mist-gray: var(--color-studio-mist);
+  --color-fog-white: var(--color-paper-frost);
+  --color-slate-gray: var(--color-slate);
+  --color-ash-gray: var(--color-steel);
+  --color-smoke-gray: var(--color-slate);
+  --color-text-secondary: var(--color-slate);
+  --color-border: var(--color-control-gray);
+  --color-blush-peach: var(--color-studio-mist);
+  --color-sienna-brown: var(--color-ink);
+  --surface-canvas: var(--color-gallery-white);
+  --surface-card: var(--color-studio-mist);
+  --surface-hover: var(--color-paper-frost);
+  --surface-selected: var(--color-control-gray);
+  --surface-resource-card: var(--color-paper-frost);
+  --surface-capability-option: #f2f2f2;
+  --chat-reply-max-width: 960px;
+  --surface-resource-enabled: color-mix(in srgb, var(--color-studio-mist) 85%, var(--color-control-gray));
+  --color-card-description: color-mix(in srgb, var(--color-ink) 75%, var(--color-slate));
+  --surface-accent: var(--color-studio-mist);
+  --surface-new-conversation: var(--color-action);
+  --border-hairline: 1px;
+  /* 边缘、接触阴影与环境阴影分层；仅浮层使用更高的投影。 */
+  --shadow-surface-ring: 0 0 0 1px rgb(0 0 0 / 5%);
+  --shadow-card: var(--shadow-surface-ring), 0 1px 2px rgb(0 0 0 / 3%), 0 6px 16px -8px rgb(0 0 0 / 9%);
+  --shadow-card-hover: 0 0 0 1px rgb(0 0 0 / 8%), 0 2px 4px rgb(0 0 0 / 4%), 0 10px 24px -12px rgb(0 0 0 / 12%);
+  --shadow-surface-inset: inset 0 1px 3px rgb(0 0 0 / 4%), inset 0 -1px 0 rgb(255 255 255 / 70%);
+  --shadow-card-enabled: var(--shadow-card), var(--shadow-surface-inset);
+  --shadow-card-enabled-hover: var(--shadow-card-hover), var(--shadow-surface-inset);
+  --shadow-popover: 0 0 0 1px rgb(0 0 0 / 6%), 0 4px 8px -2px rgb(0 0 0 / 6%), 0 16px 40px -12px rgb(0 0 0 / 14%);
+  --shadow-dialog: 0 0 0 1px rgb(0 0 0 / 6%), 0 8px 16px -6px rgb(0 0 0 / 8%), 0 24px 64px -20px rgb(0 0 0 / 18%);
+  --shadow-context-toolbar: none;
+  --shadow-none: none;
+  --shadow-focus-ring: 0 0 0 1px var(--color-ink);
+  --shadow-guide-hover: var(--shadow-card-hover);
+  --motion-fast: 120ms;
+  --motion-popover: 180ms;
+  --motion-dialog: 220ms;
+  --motion-exit: 160ms;
+  --motion-ease-out: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --font-text: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, sans-serif;
+  --font-display: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, sans-serif;
+  --font-sohne: var(--font-text);
+  --font-signifier: var(--font-display);
+  --text-chat-greeting: 40px;
+  --text-chat-keyboard-hint: 12px;
+  --text-label: 12px;
+  --text-meta: 14px;
+  --text-caption: 14px;
+  --text-ui: 14px;
+  --text-ui-lg: 19px;
+  --text-body: 17px;
+  --text-body-lg: 20px;
+  --text-subheading: 24px;
+  --text-heading-sm: 24px;
+  --text-heading: 40px;
+  --text-hero: 48px;
+  --text-heading-lg: 48px;
+  --text-display: 80px;
+  --leading-caption: 1.6;
+  --leading-body: 1.47;
+  --leading-heading: 1.2;
+  --tracking-heading: 0em;
+  --tracking-heading-lg: -.003em;
+  --tracking-display: -.015em;
+  --font-weight-regular: 400;
+  --font-weight-w430: 400;
+  --font-weight-w450: 500;
+  --font-weight-w480: 600;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-52: 52px;
+  --spacing-64: 64px;
+  --spacing-76: 76px;
+  --spacing-80: 80px;
+  --spacing-96: 96px;
+  --spacing-124: 124px;
+  --spacing-128: 128px;
+  --spacing-144: 144px;
+  --spacing-160: 160px;
+  --radius-cards: 28px;
+  --radius-inputs: 20px;
+  --radius-buttons: 9999px;
+  --radius-smallcards: 20px;
+  --radius-elevatedcards: 28px;
+  --radius-links: 10px;
+  --radius-navigation: 20px;
+  --sidebar-expanded-width: 280px;
+  --sidebar-width: var(--sidebar-expanded-width);
+  --sidebar-control-height: 40px;
+  --sidebar-session-row-height: 64px;
+  --chat-picker-height: 36px;
+  --chat-session-width: 160px;
+  --chat-resizer-width: 12px;
+  --chat-content-max-width: 800px;
+  --page-max-width: 1040px;
+  --page-padding: var(--spacing-64);
+  --section-gap: var(--spacing-64);
+  --card-padding: var(--spacing-28);
+  --resource-card-padding: 22px;
+  --text-feature: var(--text-heading-lg);
+  --tracking-feature: var(--tracking-heading-lg);
+}
+
+@media (min-resolution: 2dppx) {
+  :root { --border-hairline: 0.5px; }
+}
+
+@media (max-width: 1199px) {
+  :root {
+    --page-padding: var(--spacing-32);
+    --text-heading: 28px;
+    --text-hero: 40px;
+    --text-chat-greeting: 28px;
+    --text-feature: var(--text-heading);
+    --tracking-feature: var(--tracking-heading);
+    --resource-card-padding: 20px;
+  }
+}

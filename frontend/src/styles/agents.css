@@ -1,0 +1,104 @@
+/* Agent 管理页组件，颜色、字体与尺寸引用产品共享 token。 */
+.module-page.agents-page {
+  --agent-white: var(--surface-canvas);
+  --agent-mist: var(--surface-card);
+  --agent-frost: var(--surface-hover);
+  --agent-line: var(--color-outline);
+  --agent-control: var(--color-border);
+  --agent-ink: var(--color-ink);
+  --agent-slate: var(--color-text-secondary);
+  --agent-link: var(--agent-ink);
+  --agent-action: var(--agent-ink);
+  --agent-radius: var(--radius-cards);
+  --agent-text: var(--font-text);
+  --agent-display: var(--font-display);
+  color: var(--agent-ink);
+  font-family: var(--agent-text);
+  max-width: 1120px;
+}
+
+.agents-page :focus-visible { outline-color: var(--agent-action); }
+.agents-page .agent-page-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 48px; }
+.agents-page .page-header { min-width: 0; margin: 0; }
+.agents-page .page-header h1 { font: 600 40px/1.2 var(--agent-display); letter-spacing: 0; }
+.agents-page .page-header p { margin-top: 12px; color: var(--agent-slate); font-size: 17px; line-height: 1.47; letter-spacing: -.022em; }
+.agents-page .button { font-size: 14px; letter-spacing: -.016em; }
+.agents-page .button-primary { background: var(--agent-action); border-color: var(--agent-action); color: var(--agent-white); }
+.agents-page .button-primary:hover:not(:disabled) { background: color-mix(in srgb, var(--agent-action) 85%, var(--agent-white)); border-color: color-mix(in srgb, var(--agent-action) 85%, var(--agent-white)); }
+.agents-page .agent-page-header > .button { flex-shrink: 0; min-height: 40px; padding: 8px 20px; }
+.agents-page .agent-page-header .app-icon { width: 16px; height: 16px; }
+.agents-page .button-plain { color: var(--agent-link); }
+.agents-page .button-plain:hover:not(:disabled) { color: var(--agent-link); }
+.agents-page .model-notice { padding: 12px 16px; border-radius: 10px; background: var(--agent-mist); font-size: 14px; }
+
+.agent-list-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.agent-list-heading h2 { display: flex; align-items: center; gap: 8px; font: 600 19px/1.4 var(--agent-display); }
+.agent-list-heading h2 span { padding: 4px 8px; border-radius: 999px; background: var(--agent-mist); color: var(--agent-slate); font: 400 12px/1 var(--agent-text); }
+.agent-list-heading > span { color: var(--agent-slate); font-size: 12px; }
+.agent-tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 24px; align-items: stretch; }
+.agent-tile { display: flex; flex-direction: column; gap: 24px; min-width: 0; padding: 32px; border-radius: var(--agent-radius); background: var(--agent-mist); }
+.agent-tile-heading { display: flex; align-items: center; justify-content: space-between; min-height: 28px; gap: 16px; margin-bottom: 20px; }
+.agent-tile-heading > .app-icon { width: 28px; height: 28px; }
+.agents-page .default-tag { padding: 4px 10px; border-radius: 999px; background: var(--agent-white); color: var(--agent-slate); font-size: 12px; line-height: 1.33; }
+.agent-tile h3 { font: 600 24px/1.33 var(--agent-display); letter-spacing: .009em; overflow-wrap: anywhere; }
+.agent-tile h3 a:hover { color: var(--agent-link); }
+.agent-tile-description { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; min-height: 44px; margin-top: 8px; color: var(--agent-slate); font-size: 14px; line-height: 1.6; letter-spacing: -.016em; }
+.agent-tile-configuration { padding-top: 24px; border-top: var(--border-hairline) solid var(--agent-line); }
+.agent-tile-model-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.agents-page .agent-model { flex: 1; min-width: 0; gap: 4px; }
+.agents-page .agent-model > span { color: var(--agent-slate); font-size: 12px; line-height: 1.33; }
+.agents-page .agent-model strong { font-size: 17px; line-height: 1.47; font-weight: 600; letter-spacing: -.022em; }
+.agents-page .agent-model small { color: var(--agent-slate); font-size: 12px; line-height: 1.33; }
+.agent-tile-status { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; color: var(--agent-slate); font-size: 12px; line-height: 1.33; }
+.agent-tile-status .status-dot { background: currentColor; border: 0; }
+.agent-tile-status.is-unavailable, .agent-tile-unavailable { color: var(--color-error); }
+.agent-tile-unavailable { margin-top: 12px; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.agents-page .agent-counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+.agents-page .agent-counts > div { justify-items: start; gap: 8px; }
+.agents-page .agent-counts dt { color: var(--agent-slate); font-size: 12px; line-height: 1.33; }
+.agents-page .agent-counts dd { margin: 0; font: 600 20px/1.47 var(--agent-text); letter-spacing: -.019em; font-variant-numeric: tabular-nums; }
+.agent-tile-footer { display: flex; flex-direction: column; gap: 20px; margin-top: auto; }
+.agent-tile-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.agent-tile-actions .button { min-height: 40px; padding: 8px 12px; }
+.agent-tile-actions .button-primary { padding-inline: 20px; margin-right: auto; }
+.agent-tile-actions .app-icon { width: 14px; height: 14px; }
+.agent-tile-maintenance { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-top: 16px; border-top: var(--border-hairline) solid var(--agent-control); }
+.agents-page .agent-tile-maintenance .model-updated { margin-right: auto; color: var(--agent-slate); font-size: 12px; line-height: 1.33; }
+.agent-tile-maintenance .button { min-height: 24px; padding: 0; font-size: 12px; }
+.agents-page .agent-tile-maintenance .agent-delete-action { color: var(--agent-slate); }
+.agents-page .agent-delete-action:hover:not(:disabled) { color: var(--color-error); }
+
+.agent-new-tile { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; min-width: 0; padding: 32px; border: 1px solid var(--agent-control); border-radius: var(--agent-radius); background: var(--agent-white); transition: background .16s ease-out, border-color .16s ease-out; }
+.agent-new-tile:hover { background: var(--agent-frost); border-color: var(--agent-line); }
+.agent-new-tile > .app-icon { width: 28px; height: 28px; color: var(--agent-slate); }
+.agent-new-tile h3 { font: 600 24px/1.33 var(--agent-display); letter-spacing: .009em; overflow-wrap: anywhere; }
+.agent-new-tile p { margin-top: 8px; color: var(--agent-slate); font-size: 14px; line-height: 1.6; }
+.agent-new-steps { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; color: var(--agent-slate); font-size: 14px; }
+.agent-new-steps li { display: flex; align-items: center; gap: 12px; }
+.agent-new-steps li span { display: grid; place-items: center; width: 24px; height: 24px; background: var(--agent-mist); border-radius: 999px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.agent-new-action { display: flex; align-items: center; gap: 8px; margin-top: auto; padding-block: 8px; color: var(--agent-link); font-size: 14px; }
+.agent-new-action .app-icon { width: 16px; height: 16px; }
+.agent-new-tile:hover .agent-new-action { text-decoration: underline; text-underline-offset: 4px; }
+.agent-list-note { margin-top: 20px; color: var(--agent-slate); font-size: 12px; line-height: 1.6; }
+.agents-page .resource-empty-card { background: var(--agent-mist); border: 0; border-radius: var(--agent-radius); color: var(--agent-ink); }
+.agents-page .resource-empty-card span { color: var(--agent-slate); }
+.agents-page .page-footer { margin-top: 32px; border-color: var(--agent-control); }
+.agents-page .agent-delete-dialog { color: var(--agent-ink); background: var(--agent-white); border-radius: var(--agent-radius); }
+
+@media (max-width: 1199px) {
+  .agents-page .agent-page-header { margin-bottom: 32px; }
+  .agents-page .page-header h1 { font-size: 28px; line-height: 1.14; }
+  .agents-page .page-header p { font-size: 14px; line-height: 1.6; }
+  .agent-tile-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 310px), 1fr)); gap: 20px; }
+  .agent-tile, .agent-new-tile { padding: 24px; }
+}
+
+@media (max-width: 699px) {
+  .agents-page .agent-page-header { align-items: flex-start; flex-direction: column; }
+  .agent-list-heading > span { display: none; }
+  .agent-tile-model-row { align-items: flex-start; flex-direction: column; gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agents-page, .agents-page .button, .agent-new-tile { animation: none; transition: none; }
+}

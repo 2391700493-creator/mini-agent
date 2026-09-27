@@ -1,0 +1,257 @@
+import { mount, flushPromises, type VueWrapper } from '@vue/test-utils'
+import { createPinia } from 'pinia'
+import { createMemoryHistory } from 'vue-router'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import App from '../src/App.vue'
+vi.mock('../src/api/workspace', () => ({ projects: async () => [] }))
+import { createAppRouter } from '../src/router'
+import * as api from '../src/api/agents'
+import * as chatApi from '../src/api/chat'
+import * as memoryApi from '../src/api/memories'
+vi.mock('../src/api/memories', () => ({ listMemories: vi.fn().mockResolvedValue([]), saveMemory: vi.fn(), removeMemory: vi.fn() }))
+import { ApiError } from '../src/api/client'
+
+vi.mock('../src/api/chat', () => ({ createConversation: vi.fn(), chooseAgent: vi.fn(), conversations: vi.fn().mockResolvedValue([]), chatAgents: vi.fn().mockResolvedValue([]), getConversation: vi.fn() }))
+vi.mock('../src/api/agents', () => ({ listAgents: vi.fn(), getAgent: vi.fn(), agentOptions: vi.fn(), saveAgent: vi.fn(), setDefaultAgent: vi.fn(), deleteAgent: vi.fn() }))
+HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', '') }
+HTMLDialogElement.prototype.close = function () { this.removeAttribute('open') }
+const time: api.Capability = { id: 'current_time', name: '当前时间', description: '查询指定时区的日期', enabled: true, unavailable_reason: null }
+const skill: api.Capability = { id: 'writing', name: '文稿整理', description: '保持事实与来源', enabled: false, unavailable_reason: '已停用，不可用' }
+const choices: api.AgentOptions = {
+  models: [{ id: 'm1', name: '日常模型', model_id: 'provider-model', is_default: false, context_length: 8192, max_output_tokens: 512 }, { id: 'm2', name: '默认模型', model_id: 'provider-default', is_default: true, context_length: 8192, max_output_tokens: 512 }],
+  tools: [time], skills: [skill], mcp_servers: [], skill_issues: [],
+}
+const agent: api.AgentDetail = { id: 'one', name: '研究助手', description: '整理资料', model_id: 'm1', model_name: '日常模型', model_identifier: 'provider-model', max_rounds: 10, auto_compress: true, compression_trigger_ratio: 0.8, compression_keep_recent_turns: 4, compression_summary_target_tokens: 1000, is_default: true, updated_at: '2026-09-11T08:00:00Z', tool_count: 1, skill_count: 1, mcp_server_count: 0, system_prompt: '请保留来源。', prompt_version: 3, tools: [time], skills: [skill], mcp_servers: [] }
+let wrapper: VueWrapper
+beforeEach(() => {
+  vi.clearAllMocks()
+  vi.mocked(api.listAgents).mockResolvedValue([])
+  vi.mocked(api.agentOptions).mockResolvedValue(structuredClone(choices))
+  vi.mocked(api.getAgent).mockResolvedValue(structuredClone(agent))
+  vi.mocked(api.saveAgent).mockResolvedValue(agent)
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ status: 'ok', database: 'connected', project: 'mini-agent' }))))
+})
+afterEach(() => { wrapper?.unmount(); document.body.innerHTML = ''; vi.unstubAllGlobals() })
+async function open(path = '/agents') {
+  const router = createAppRouter(createMemoryHistory())
+  await router.push(path)
+  wrapper = mount(App, { attachTo: document.body, global: { plugins: [createPinia(), router] } })
+  await flushPromises()
+  return router
+}
+function button(label: string) { return wrapper.findAll('button').find(item => item.text() === label)! }
+
+describe('Agent 管理', () => {
+  it('记忆删除采用弹窗，取消保留内容，失败后可重试', async () => {
+    vi.mocked(memoryApi.listMemories).mockResolvedValueOnce([{ id: 'memory-one', agent_id: 'one', content: '保留来源', source_conversation_id: null, created_at: '', updated_at: '' }])
+    await open('/agents/one/edit')
+    const trigger = wrapper.get('#agent-memory').element.closest('section')!
+    const remove = wrapper.findAll('button').find(item => trigger.contains(item.element) && item.text() === '删除')!
+    ;(remove.element as HTMLElement).focus()
+    await remove.trigger('click'); await flushPromises()
+    const dialog = wrapper.get('dialog[aria-label="删除这条跨会话记忆？"]')
+    await dialog.findAll('button').find(item => item.text() === '取消')!.trigger('click'); await flushPromises()
+    expect(memoryApi.removeMemory).not.toHaveBeenCalled()
+    expect(document.activeElement).toBe(remove.element)
+    vi.mocked(memoryApi.removeMemory).mockRejectedValueOnce(new Error('记忆删除失败'))
+    await remove.trigger('click'); await flushPromises()
+    await dialog.findAll('button').find(item => item.text() === '确认删除')!.trigger('click'); await flushPromises()
+    expect(dialog.get('[role="alert"]').text()).toBe('记忆删除失败')
+    expect(dialog.attributes('open')).toBeDefined()
+    vi.mocked(memoryApi.removeMemory).mockResolvedValueOnce(undefined)
+    await dialog.findAll('button').find(item => item.text() === '确认删除')!.trigger('click'); await flushPromises()
+    expect(memoryApi.removeMemory).toHaveBeenLastCalledWith('one', 'memory-one')
+    expect(dialog.attributes('open')).toBeUndefined()
+    expect(wrapper.findAll('.evaluation-case')).toHaveLength(0)
+  })
+
+  it('未保存修改可取消离开并拦截刷新，还原字段后不再提示', async () => {
+    const router = await open('/agents/new')
+    const original = (wrapper.get('#name').element as HTMLInputElement).value
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
+    await wrapper.get('#name').setValue('未保存的修改')
+    await router.push('/agents')
+    expect(router.currentRoute.value.path).toBe('/agents/new')
+    expect(confirm).toHaveBeenCalledTimes(1)
+    const event = new Event('beforeunload', { cancelable: true })
+    window.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(true)
+    await wrapper.get('#name').setValue(original)
+    await router.push('/agents')
+    expect(router.currentRoute.value.path).toBe('/agents')
+    expect(confirm).toHaveBeenCalledTimes(1)
+    confirm.mockRestore()
+  })
+
+  it('空状态可进入新建，选中默认模型并展示模型标识与能力用途', async () => {
+    await open()
+    expect(wrapper.text()).toContain('新建第一个 Agent')
+    await wrapper.get('.resource-empty-card').trigger('click')
+    await flushPromises()
+    expect((wrapper.get('#model_id').element as HTMLSelectElement).value).toBe('m2')
+    expect(wrapper.get('#model_id').text()).toContain('日常模型 · provider-model')
+    expect(wrapper.text()).toContain(time.description)
+    expect(wrapper.text()).toContain(skill.description)
+    expect(wrapper.get('input[value="writing"]').attributes('disabled')).toBeDefined()
+    expect((wrapper.get('#max_rounds').element as HTMLInputElement).value).toBe('10')
+  })
+  it('从模型连接结果进入时预选该模型，高级选项默认收起', async () => {
+    await open('/agents/new?model=m1')
+    expect((wrapper.get('#model_id').element as HTMLSelectElement).value).toBe('m1')
+    expect(wrapper.findAll('details').every(item => !(item.element as HTMLDetailsElement).open)).toBe(true)
+    await wrapper.get('#name').setValue('校验助手')
+    await wrapper.get('#max_rounds').setValue('0')
+    await wrapper.get('form').trigger('submit')
+    expect((wrapper.get('#max_rounds').element.closest('details') as HTMLDetailsElement).open).toBe(true)
+    expect(document.activeElement?.id).toBe('max_rounds')
+  })
+  it('从 Agent 开始对话只创建一次会话，绑定失败时留在列表并允许重试', async () => {
+    vi.mocked(api.listAgents).mockResolvedValue([agent])
+    vi.mocked(chatApi.createConversation).mockResolvedValue({ id: 'new-session' } as Awaited<ReturnType<typeof chatApi.createConversation>>)
+    let reject!: (error: Error) => void
+    vi.mocked(chatApi.chooseAgent).mockImplementation(() => new Promise((_resolve, fail) => { reject = fail }))
+    const router = await open('/agents')
+    await button('开始对话').trigger('click')
+    await button('正在打开…').trigger('click')
+    reject(new Error('Agent 暂不可用'))
+    await flushPromises()
+    expect(chatApi.createConversation).toHaveBeenCalledTimes(1)
+    expect(chatApi.chooseAgent).toHaveBeenCalledWith('new-session', agent.id)
+    expect(router.currentRoute.value.path).toBe('/agents')
+    expect(wrapper.text()).toContain('Agent 暂不可用')
+    expect(button('开始对话').attributes('disabled')).toBeUndefined()
+  })
+  it('没有模型时提示添加并禁用保存', async () => {
+    vi.mocked(api.agentOptions).mockResolvedValue({ ...choices, models: [] })
+    await open('/agents/new')
+    expect(wrapper.text()).toContain('暂无可用模型')
+    expect(wrapper.get('.agent-model-notice a').attributes('href')).toBe('/models/new')
+    expect(button('保存 Agent').attributes('disabled')).toBeDefined()
+  })
+  it('校验名称、模型和正整数轮数，并聚焦错误字段', async () => {
+    await open('/agents/new')
+    await wrapper.get('#max_rounds').setValue('1.5')
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).not.toHaveBeenCalled()
+    expect(document.activeElement?.id).toBe('name')
+    expect(wrapper.get('#max_rounds-error').text()).toContain('1 至 100')
+    await wrapper.get('#name').setValue('写作助手')
+    await wrapper.get('#max_rounds').setValue('101')
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).not.toHaveBeenCalled()
+    await wrapper.get('#max_rounds').setValue('1')
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).toHaveBeenCalledWith(expect.objectContaining({ name: '写作助手', max_rounds: 1, tool_ids: [], skill_ids: [], mcp_server_ids: [] }), undefined)
+  })
+  it('展示上下文压缩默认值，校验比例、轮数和摘要目标', async () => {
+    await open('/agents/new')
+    expect((wrapper.get('.agent-compression-switch input').element as HTMLInputElement).checked).toBe(true)
+    expect((wrapper.get('#compression_trigger_ratio').element as HTMLInputElement).value).toBe('80')
+    expect((wrapper.get('#compression_keep_recent_turns').element as HTMLInputElement).value).toBe('4')
+    expect((wrapper.get('#compression_summary_target_tokens').element as HTMLInputElement).value).toBe('1000')
+    await wrapper.get('#name').setValue('容量助手')
+    await wrapper.get('#compression_trigger_ratio').setValue('49')
+    await wrapper.get('#compression_keep_recent_turns').setValue('0')
+    await wrapper.get('#compression_summary_target_tokens').setValue('127')
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).not.toHaveBeenCalled()
+    expect(wrapper.get('#compression_trigger_ratio-error').text()).toContain('50 至 95')
+    await wrapper.get('#compression_trigger_ratio').setValue('75')
+    await wrapper.get('#compression_keep_recent_turns').setValue('6')
+    await wrapper.get('#compression_summary_target_tokens').setValue('800')
+    await wrapper.get('.agent-compression-switch input').setValue(false)
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).toHaveBeenCalledWith(expect.objectContaining({ auto_compress: false, compression_trigger_ratio: 0.75, compression_keep_recent_turns: 6, compression_summary_target_tokens: 800 }), undefined)
+  })
+  it('编辑保留停用绑定，改名不提示新版本，内容变化显示新版本', async () => {
+    await open('/agents/one/edit')
+    expect(wrapper.text()).toContain('当前版本 v3')
+    expect(wrapper.text()).toContain('已停用，不可用')
+    const bound = wrapper.get('input[value="writing"]')
+    expect((bound.element as HTMLInputElement).checked).toBe(true)
+    expect(bound.attributes('disabled')).toBeUndefined()
+    await wrapper.get('#name').setValue('新名称')
+    expect(wrapper.text()).not.toContain('保存后生成 v4')
+    await wrapper.get('#system_prompt').setValue('新提示词\n')
+    expect(wrapper.text()).toContain('保存后生成 v4')
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).toHaveBeenCalledWith(expect.objectContaining({ name: '新名称', system_prompt: '新提示词\n', skill_ids: ['writing'] }), 'one')
+  })
+  it('停用绑定可手动移除，失效文件仍展示原名称', async () => {
+    vi.mocked(api.agentOptions).mockResolvedValue({ ...choices, skills: [] })
+    await open('/agents/one/edit')
+    expect(wrapper.text()).toContain('文稿整理')
+    expect(wrapper.text()).toContain('文件缺失或无效，不可用')
+    await wrapper.get('input[value="writing"]').setValue(false)
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).toHaveBeenCalledWith(expect.objectContaining({ skill_ids: [] }), 'one')
+  })
+  it('刷新后新选能力变停用时提示移除，保留用户输入', async () => {
+    await open('/agents/new')
+    await wrapper.get('#name').setValue('写作助手')
+    await wrapper.get('input[value="current_time"]').setValue(true)
+    vi.mocked(api.agentOptions).mockResolvedValue({ ...choices, tools: [{ ...time, enabled: false }] })
+    await button('刷新能力选项').trigger('click')
+    await flushPromises()
+    await wrapper.get('form').trigger('submit')
+    expect(wrapper.get('#tool_ids-error').text()).toContain('新选能力已停用')
+    expect(api.saveAgent).not.toHaveBeenCalled()
+    await wrapper.get('input[value="current_time"]').setValue(false)
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).toHaveBeenCalledWith(expect.objectContaining({ name: '写作助手', tool_ids: [] }), undefined)
+  })
+  it('阻止重复提交，后端校验错误显示在对应字段并保留输入', async () => {
+    await open('/agents/one/edit')
+    let reject!: (e: unknown) => void
+    vi.mocked(api.saveAgent).mockReturnValue(new Promise((_, fail) => { reject = fail }))
+    await wrapper.get('form').trigger('submit')
+    await wrapper.get('form').trigger('submit')
+    expect(api.saveAgent).toHaveBeenCalledTimes(1)
+    reject(new ApiError('请检查标记的字段。', 422, { model_id: '模型已不存在' }))
+    await flushPromises()
+    expect(wrapper.get('#model_id-error').text()).toBe('模型已不存在')
+    expect(document.activeElement?.id).toBe('model_id')
+    expect((wrapper.get('#system_prompt').element as HTMLTextAreaElement).value).toBe(agent.system_prompt)
+  })
+  it('列表按已保存数量展示，默认删除需替代项，取消返回焦点', async () => {
+    vi.mocked(api.listAgents).mockResolvedValue([agent, { ...agent, id: 'two', name: '备选', is_default: false }])
+    await open()
+    expect(wrapper.get('.agent-model').text()).toContain('日常模型provider-model')
+    expect(wrapper.findAll('.agent-counts dd').slice(0, 3).map(item => item.text())).toEqual(['1', '1', '0'])
+    await wrapper.get('#delete-one').trigger('click')
+    await flushPromises()
+    expect(wrapper.get('dialog').element.tagName).toBe('DIALOG')
+    expect(button('确认删除').attributes('disabled')).toBeDefined()
+    await button('取消').trigger('click')
+    expect(api.deleteAgent).not.toHaveBeenCalled()
+    expect(document.activeElement?.id).toBe('delete-one')
+    await wrapper.get('#delete-one').trigger('click')
+    await flushPromises()
+    await wrapper.get('#replacement').setValue('two')
+    vi.mocked(api.listAgents).mockResolvedValue([{ ...agent, id: 'two' }])
+    await button('确认删除').trigger('click')
+    await flushPromises()
+    expect(api.deleteAgent).toHaveBeenCalledWith('one', 'two')
+    expect(wrapper.findAll('.default-tag')).toHaveLength(1)
+  })
+  it('普通删除须确认，最后一个删除后恢复空状态', async () => {
+    vi.mocked(api.listAgents).mockResolvedValueOnce([agent]).mockResolvedValue([])
+    await open()
+    await wrapper.get('#delete-one').trigger('click')
+    expect(wrapper.text()).toContain('这是最后一个 Agent')
+    expect(api.deleteAgent).not.toHaveBeenCalled()
+    await button('确认删除').trigger('click')
+    await flushPromises()
+    expect(wrapper.text()).toContain('新建第一个 Agent')
+  })
+  it('设置默认后刷新列表，离线时支持重试', async () => {
+    vi.mocked(api.listAgents).mockRejectedValueOnce(new Error('确认后端已启动')).mockResolvedValue([agent, { ...agent, id: 'two', is_default: false }])
+    await open()
+    expect(wrapper.get('.model-feedback').text()).toContain('确认后端已启动')
+    await button('重新加载').trigger('click')
+    await flushPromises()
+    await button('设为默认').trigger('click')
+    await flushPromises()
+    expect(api.setDefaultAgent).toHaveBeenCalledWith('two')
+  })
+})

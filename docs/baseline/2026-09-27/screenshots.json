@@ -1,0 +1,86 @@
+[
+  {
+    "file": "01-chat.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "f1cb53af5d16c04c84725c2f6e11101a2aaacb1d122aacbe6af12fbe04562d8f"
+  },
+  {
+    "file": "02-agents.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "a86046a0001224a80ba886d7ceb9e64ff34683a78f8f30a491001d3a76d01a7f"
+  },
+  {
+    "file": "03-models.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "6f9d73f0a4da747ea1163a4ddff75814b6b28b0dee53889b9ef255859058a4e1"
+  },
+  {
+    "file": "04-model-new.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "055c2d89bf56eba54cc40f131e6511d32ea8849a0ca788e858f26e6f49743cfa"
+  },
+  {
+    "file": "05-agent-new.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "bdedefb0adcaf81a6b68208af22f80a5a944aa44a249d8769c4a40f4a03848e0"
+  },
+  {
+    "file": "06-tools.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "d2165329d51658445f1917ea54055c0055114b131d660833238a7354a194c2dc"
+  },
+  {
+    "file": "07-skills.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "d023c1ce8f250905ed0110c591f4f7aa8473044088f1b897b2df35a481c65195"
+  },
+  {
+    "file": "08-mcp.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "82a9ed40cb5e470ba87948d36de3b2e4a591bcddbcccb1317af330db16440df6"
+  },
+  {
+    "file": "09-mcp-new.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "82c74d13bc0411479bebb152a8b9ad0023980599619df79b70f8527e05f57ced"
+  },
+  {
+    "file": "10-runs.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "00fd40120ca6773f8e20c6350fe154e7b6779b9dca3a45012b4f0db0c5aff042"
+  },
+  {
+    "file": "11-evaluations.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "3f4181c87bd2182903a5b50fb3c5ca32e6080524952f42114a2aafdceb2896b7"
+  },
+  {
+    "file": "12-automations.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "3d65bd65b22331a414cb8e12fbc0abc5354b2d94193cb8050592506e6e22bd5d"
+  },
+  {
+    "file": "13-tool-detail.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "71bff63b7a3441a07e8c253bde406228702e6608da81b34d117e276e58359c12"
+  },
+  {
+    "file": "14-evaluation-dataset.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "b69aadfd73d23780f65ab088580427cac4e0bbad0ab6f1d8f8330467b526c0e9"
+  }
+]
