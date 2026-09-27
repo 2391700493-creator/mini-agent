@@ -36,7 +36,12 @@ from app.schemas.evaluations import (
     TaskStats,
     TaskView,
 )
-from app.services.agent_runtime import Cancellation, CapabilityLimits, RuntimeRequest
+from app.services.agent_runtime import (
+    Cancellation,
+    CapabilityLimits,
+    RuntimeRequest,
+    parse_arguments,
+)
 from app.services.chat_model import ChatFailure, ModelReply, stream_reply
 from app.services.runs import safe_value
 
@@ -699,18 +704,7 @@ class EvaluationStore:
 
     @staticmethod
     def _parse_score(raw):
-        def bad_constant(_):
-            raise ValueError
-
-        def unique(pairs):
-            result = {}
-            for key, value in pairs:
-                if key in result:
-                    raise ValueError
-                result[key] = value
-            return result
-
-        value = json.loads(raw, parse_constant=bad_constant, object_pairs_hook=unique)
+        value = parse_arguments(raw)
         if (
             set(value) != {"score", "reason"}
             or type(value["score"]) not in (int, float)

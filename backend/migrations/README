@@ -1,1 +1,6 @@
-Generic single-database configuration.
+SQLite 数据库迁移（Alembic）
+
+env.py 配置迁移环境，script.py.mako 提供生成模板，versions/ 保存按版本连接的迁移文件。
+从 backend/ 运行 uv run alembic upgrade head 初始化或升级数据库。
+迁移检查与回滚必须使用临时数据库，不得对正式数据做验证性降级。
+详细约定见项目根目录 AGENTS.md 与 docs/开发指南.md。

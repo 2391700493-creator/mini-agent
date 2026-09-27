@@ -8,7 +8,7 @@ vi.mock('../src/api/workspace', () => ({ projects: async () => [] }))
 import { createAppRouter } from '../src/router'
 import * as api from '../src/api/mcp'
 
-vi.mock('../src/api/mcp', () => ({ listMcp: vi.fn(), getMcp: vi.fn(), saveMcp: vi.fn(), deleteMcp: vi.fn(), toggleMcp: vi.fn(), testMcp: vi.fn(), importMcpJson: vi.fn(), updateMcpJson: vi.fn(), previewMcpImport: vi.fn() }))
+vi.mock('../src/api/mcp', () => ({ listMcp: vi.fn(), getMcp: vi.fn(), deleteMcp: vi.fn(), toggleMcp: vi.fn(), testMcp: vi.fn(), importMcpJson: vi.fn(), updateMcpJson: vi.fn() }))
 HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', '') }
 HTMLDialogElement.prototype.close = function () { this.removeAttribute('open') }
 const server: api.McpServer = { id: 'one', name: '本机工具', description: '读取文件', command: 'node', args: ['server.js', '--stdio'], env: { TOKEN: '••••••••' }, enabled: false, testing: false, status: 'untested', message: '未测试', diagnostic: null, tested_at: null, last_success_at: null, tool_count: null, tools: [] }
@@ -17,7 +17,6 @@ beforeEach(() => {
   vi.resetAllMocks()
   vi.mocked(api.listMcp).mockResolvedValue([{ ...server }])
   vi.mocked(api.getMcp).mockResolvedValue({ ...server })
-  vi.mocked(api.saveMcp).mockResolvedValue({ ...server })
   vi.mocked(api.importMcpJson).mockResolvedValue({ ...server })
   vi.mocked(api.updateMcpJson).mockResolvedValue({ ...server })
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ status: 'ok', database: 'connected', project: 'mini-agent' }))))

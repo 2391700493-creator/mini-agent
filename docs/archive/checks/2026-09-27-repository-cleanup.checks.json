@@ -1,0 +1,265 @@
+{
+  "date": "2026-09-27",
+  "base_commit": "d17af5a",
+  "commands": [
+    {
+      "directory": "backend",
+      "command": "uv sync --locked",
+      "exit_code": 0
+    },
+    {
+      "directory": "backend",
+      "command": "uv run ruff check --no-cache .",
+      "exit_code": 0
+    },
+    {
+      "directory": "backend",
+      "command": "uv run ruff format --check --no-cache .",
+      "exit_code": 0
+    },
+    {
+      "directory": "backend",
+      "command": "uv run pytest tests/test_evaluations.py tests/test_agent_runtime.py tests/test_database.py -q -p no:cacheprovider",
+      "exit_code": 0
+    },
+    {
+      "directory": "frontend",
+      "command": "npm run test -- tests/mcp.test.ts tests/context-toolbar.test.ts tests/api.test.ts tests/app.test.ts",
+      "exit_code": 0
+    },
+    {
+      "directory": "frontend",
+      "command": "npm run build",
+      "exit_code": 0
+    }
+  ],
+  "frontend_tests_passed": 31,
+  "backend_tests_passed": 52,
+  "score_parser_comparison": {
+    "cases": 22,
+    "identical": true,
+    "coverage": [
+      "valid boundaries",
+      "fractional score",
+      "boolean",
+      "out of range",
+      "duplicate score/reason",
+      "NaN/Infinity",
+      "overflow",
+      "empty or nonstring reason",
+      "extra or missing fields",
+      "nonobject",
+      "invalid JSON",
+      "bytes"
+    ]
+  },
+  "visual_comparison": [
+    {
+      "screenshot": "01-chat.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "02-agents.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "03-models.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "04-model-new.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "05-agent-new.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "06-tools.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "07-skills.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "08-mcp.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "09-mcp-new.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "10-runs.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "11-evaluations.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "12-automations.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "13-tool-detail.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    },
+    {
+      "screenshot": "14-evaluation-dataset.png",
+      "same_size": true,
+      "identical_pixels": true,
+      "difference_bbox": null
+    }
+  ],
+  "protected_files": {
+    "count": 12,
+    "unchanged": true
+  },
+  "dependency_manifests_and_locks_unchanged": true,
+  "deleted_tracked_files": [
+    "frontend/src/components/BrandMark.vue",
+    "docs/DESIGN-v2.md",
+    "docs/design-v2/components.md"
+  ],
+  "generated_and_metadata_cleanup": [
+    {
+      "path": ".DS_Store",
+      "files": 1,
+      "bytes": 14340,
+      "deleted": true
+    },
+    {
+      "path": "frontend/.DS_Store",
+      "files": 1,
+      "bytes": 12292,
+      "deleted": true
+    },
+    {
+      "path": "frontend/src/.DS_Store",
+      "files": 1,
+      "bytes": 6148,
+      "deleted": true
+    },
+    {
+      "path": "backend/.DS_Store",
+      "files": 1,
+      "bytes": 6148,
+      "deleted": true
+    },
+    {
+      "path": "backend/app/.DS_Store",
+      "files": 1,
+      "bytes": 6148,
+      "deleted": true
+    },
+    {
+      "path": "backend/app/repositories/.DS_Store",
+      "files": 1,
+      "bytes": 6148,
+      "deleted": true
+    },
+    {
+      "path": "backend/migrations/.DS_Store",
+      "files": 1,
+      "bytes": 6148,
+      "deleted": true
+    },
+    {
+      "path": "backend/app/__pycache__",
+      "files": 5,
+      "bytes": 49236,
+      "deleted": true
+    },
+    {
+      "path": "backend/app/repositories/__pycache__",
+      "files": 7,
+      "bytes": 20172,
+      "deleted": true
+    },
+    {
+      "path": "backend/app/schemas/__pycache__",
+      "files": 12,
+      "bytes": 61451,
+      "deleted": true
+    },
+    {
+      "path": "backend/app/api/__pycache__",
+      "files": 12,
+      "bytes": 52187,
+      "deleted": true
+    },
+    {
+      "path": "backend/app/services/__pycache__",
+      "files": 22,
+      "bytes": 379132,
+      "deleted": true
+    },
+    {
+      "path": "backend/tests/__pycache__",
+      "files": 15,
+      "bytes": 861880,
+      "deleted": true
+    },
+    {
+      "path": "backend/migrations/__pycache__",
+      "files": 1,
+      "bytes": 2388,
+      "deleted": true
+    },
+    {
+      "path": "backend/migrations/versions/__pycache__",
+      "files": 20,
+      "bytes": 76481,
+      "deleted": true
+    },
+    {
+      "path": "backend/.pytest_cache",
+      "files": 5,
+      "bytes": 27560,
+      "deleted": true
+    },
+    {
+      "path": "backend/.ruff_cache",
+      "files": 10,
+      "bytes": 6022,
+      "deleted": true
+    },
+    {
+      "path": "frontend/dist",
+      "files": 9,
+      "bytes": 782476,
+      "deleted": true
+    }
+  ],
+  "deleted_generated_files": 125,
+  "deleted_generated_bytes": 2376357,
+  "independent_read_only_review": "passed"
+}

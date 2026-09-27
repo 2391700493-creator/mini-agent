@@ -16,7 +16,6 @@ h1, h2, h3, h4, p { margin: 0; }
 .app-shell { display: grid; grid-template-columns: var(--sidebar-width) minmax(0, 1fr); height: 100vh; height: 100dvh; }
 .sidebar { display: flex; flex-direction: column; min-height: 0; padding: var(--spacing-24) var(--spacing-12) var(--spacing-12); background: var(--surface-hover); border-right: 1px solid var(--color-border); }
 .brand { display: flex; align-items: center; gap: var(--spacing-8); margin: 0 var(--spacing-8); width: fit-content; }
-.brand-symbol { display: block; flex-shrink: 0; width: 32px; height: 32px; color: var(--color-ink-black); }
 .brand-name { font-size: var(--text-ui-lg); font-weight: var(--font-weight-w480); letter-spacing: -.5px; white-space: nowrap; }
 .sidebar-section-label { margin: var(--spacing-64) var(--spacing-12) var(--spacing-16); color: var(--color-text-secondary); font-size: var(--text-meta); }
 .navigation { margin-top: var(--spacing-28); display: flex; flex-direction: column; gap: var(--spacing-24); min-height: 0; overflow-y: auto; padding: var(--spacing-4); }
@@ -823,8 +822,6 @@ main:has(.chat-page) { flex: 1; min-height: 0; display: flex; padding: var(--spa
 .conversation-search:focus-within { outline: 2px solid var(--color-ink-black); outline-offset: 2px; }
 .search-reset { display: block; margin-top: var(--spacing-8); padding: 0; border: 0; background: transparent; color: var(--color-ink-black); text-decoration: underline; font-size: var(--text-meta); }
 .chat-welcome { width: 100%; max-width: var(--chat-content-max-width); align-self: center; text-align: center; margin-bottom: var(--spacing-32); }
-.welcome-brand { display: inline-flex; align-items: center; gap: var(--spacing-8); margin-bottom: var(--spacing-24); font-size: var(--text-ui-lg); letter-spacing: -.5px; }
-.welcome-brand .brand-symbol { width: 44px; height: 44px; padding: var(--spacing-4); background: var(--surface-accent); border-radius: var(--radius-smallcards); }
 .chat-welcome .chat-greeting { margin-bottom: var(--spacing-12); font-family: var(--font-signifier); letter-spacing: var(--tracking-heading); }
 .chat-welcome-note { font-size: var(--text-meta); color: var(--color-text-secondary); text-wrap: balance; }
 .composer-utilities { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-4); width: 100%; max-width: var(--chat-content-max-width); align-self: center; margin-bottom: var(--spacing-8); }
@@ -858,7 +855,6 @@ main:has(.chat-page) { flex: 1; min-height: 0; display: flex; padding: var(--spa
 @media (max-width: 699px) {
   .conversation-search { margin-top: var(--spacing-8); padding-block: var(--spacing-4); }
   .chat-welcome { margin-bottom: var(--spacing-20); margin-top: var(--spacing-16); }
-  .welcome-brand { margin-bottom: var(--spacing-16); }
   .chat-starters { gap: var(--spacing-8); justify-content: flex-start; margin-top: var(--spacing-16); }
   .chat-starters button { min-height: 44px; }
   .composer-tool { min-height: 44px; padding-inline: var(--spacing-8); }
